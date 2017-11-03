@@ -1,35 +1,20 @@
 package com.mygdx.game
 
-import com.badlogic.ashley.core.Component
-import com.badlogic.ashley.core.Entity
-import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.core.PooledEngine
-import com.badlogic.ashley.systems.IntervalIteratingSystem
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.mygdx.es.component.Caption
+import com.mygdx.es.component.Position
+import com.mygdx.es.helper.captionMapper
+import com.mygdx.es.helper.labelFamily
+import com.mygdx.es.helper.positionMapper
+import com.mygdx.es.system.MoarExclamationMarksSystem
 import ktx.app.KtxScreen
 import ktx.app.use
-import ktx.ashley.allOf
 import ktx.ashley.entity
-import ktx.ashley.mapperFor
 import ktx.inject.Context
-
-class Transform(var x: Float = 0f, var y: Float = 0f) : Component
-class Label(var text: String = "") : Component
-
-val labelFamily: Family = allOf(Transform::class, Label::class).get()
-val transformMapper = mapperFor<Transform>()
-val labelMapper = mapperFor<Label>()
-
-class LabelProcessor : IntervalIteratingSystem(labelFamily, 1.0f) {
-    override fun processEntity(entity: Entity?) {
-        val e = entity!!
-        val text = labelMapper[e]
-        text.text += "!"
-    }
-}
 
 class HelloWorldScreen(context: Context) : KtxScreen {
     private val batch = SpriteBatch().apply {
@@ -42,20 +27,20 @@ class HelloWorldScreen(context: Context) : KtxScreen {
 
     override fun show() {
         engine.entity {
-            with<Transform> { x = 300f; y = 100f }
-            with<Label> { text = "Hello world!" }
+            with<Position> { x = 300f; y = 100f }
+            with<Caption> { text = "Hello world!" }
         }
-        engine.addSystem(LabelProcessor())
+        engine.addSystem(MoarExclamationMarksSystem())
     }
 
     override fun render(delta: Float) {
         batch.use { b ->
-            labels.forEach { label ->
-                val text: Label = labelMapper[label]
-                val transform: Transform = transformMapper[label]
-                font.draw(b, text.text, transform.x, transform.y)
-            }
             b.draw(img, 0f, 0f)
+            labels.forEach { label ->
+                val caption = captionMapper[label]
+                val position = positionMapper[label]
+                font.draw(b, caption.text, position.x, position.y)
+            }
         }
     }
 
