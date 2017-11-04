@@ -22,8 +22,10 @@ class HelloWorldScreen(context: Context) : KtxScreen {
     private val engine = context.engine
     private val labels = engine.getEntitiesFor(labelFamily)
     private val sprites = engine.getEntitiesFor(spriteFamily)
+    private val exclamations = MoarExclamationMarksSystem()
 
     override fun show() {
+        engine.addSystem(exclamations)
         engine.entity {
             with<Transform> { position = Vector2(300f, 100f) }
             with<Caption> { text = "Hello world!" }
@@ -32,7 +34,6 @@ class HelloWorldScreen(context: Context) : KtxScreen {
             with<Transform> { degrees = 45f }
             with<Sprite> { setRegion(Texture("badlogic.jpg")) }
         }
-        engine.addSystem(MoarExclamationMarksSystem())
     }
 
     override fun render(delta: Float) {
@@ -53,6 +54,10 @@ class HelloWorldScreen(context: Context) : KtxScreen {
                 font.draw(b, caption.text, transform.position.x, transform.position.y)
             }
         }
+    }
+
+    override fun hide() {
+        engine.removeSystem(exclamations)
     }
 
     override fun dispose() {
