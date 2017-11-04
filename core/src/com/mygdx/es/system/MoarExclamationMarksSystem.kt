@@ -7,8 +7,7 @@ import com.mygdx.es.helper.labelFamily
 
 class MoarExclamationMarksSystem : IntervalIteratingSystem(labelFamily, 1.0f) {
     override fun processEntity(entity: Entity?) {
-        val e = entity!!
-        val captionComponent = captionMapper[e]
+        val captionComponent = captionMapper[entity!!]
         captionComponent.text += "!"
     }
 }

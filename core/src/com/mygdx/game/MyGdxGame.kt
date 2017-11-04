@@ -1,20 +1,15 @@
 package com.mygdx.game
 
-import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Screen
 import ktx.app.KtxGame
 import ktx.async.enableKtxCoroutines
-import ktx.inject.Context
 
 class MyGdxGame : KtxGame<Screen>() {
-    private val context = Context()
-    private val engine = PooledEngine()
+    private val context = Context
+    private val engine = context.engine
     override fun create() {
         enableKtxCoroutines(asynchronousExecutorConcurrencyLevel = 1)
-        context.register {
-            bindSingleton(engine)
-        }
         addScreen(HelloWorldScreen(context))
         setScreen<HelloWorldScreen>()
     }
@@ -25,7 +20,7 @@ class MyGdxGame : KtxGame<Screen>() {
     }
 
     override fun dispose() {
-        context.dispose() // disposes all that implement Disposable
+        context.dispose()
         super.dispose()
     }
 }
