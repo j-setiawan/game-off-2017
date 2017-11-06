@@ -2,6 +2,6 @@
 **Throwback**
 
 ## How to Run
-Execute the main method here: `desktop/src/com/mygdx/game/desktop/DesktopLauncher.java`
+Execute the main method here: `desktop/src/com/mygdx/game/desktop/DesktopLauncher.kt`
 
 To pick up the assets properly, edit your run configuration to use `core/assets` as its Working Directory
