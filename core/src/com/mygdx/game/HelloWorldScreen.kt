@@ -10,6 +10,7 @@ import com.mygdx.es.component.Sprite
 import com.mygdx.es.component.Transform
 import com.mygdx.es.helper.*
 import com.mygdx.es.system.MoarExclamationMarksSystem
+import com.mygdx.es.system.SpriteRotatorSystem
 import ktx.app.KtxScreen
 import ktx.app.use
 import ktx.ashley.entity
@@ -23,9 +24,11 @@ class HelloWorldScreen(context: Context) : KtxScreen {
     private val labels = engine.getEntitiesFor(labelFamily)
     private val sprites = engine.getEntitiesFor(spriteFamily)
     private val exclamations = MoarExclamationMarksSystem()
+    private val rotator = SpriteRotatorSystem()
 
     override fun show() {
         engine.addSystem(exclamations)
+        engine.addSystem(rotator)
         engine.entity {
             with<Transform> { position = Vector2(300f, 100f) }
             with<Caption> { text = "Hello world!" }
