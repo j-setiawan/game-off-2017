@@ -24,6 +24,7 @@ class HelloWorldScreen(context: Context) : KtxScreen {
     private val engine = context.engine
     private val labels = engine.getEntitiesFor(labelFamily)
     private val sprites = engine.getEntitiesFor(spriteFamily)
+    private val connectedSprites = engine.getEntitiesFor(connectedSpriteFamily)
     private val exclamations = MoarExclamationMarksSystem()
     private val rotator = SpriteRotatorSystem()
     private val factory = EntityFactory(engine)
@@ -45,6 +46,18 @@ class HelloWorldScreen(context: Context) : KtxScreen {
     }
 
     override fun render(delta: Float) {
+        connectedSprites.forEach { entity ->
+            val relativeTransform = relativeTransformMapper[entity]
+            val connectedTo = connectedToMapper[entity]
+            val parentTransform = transformMapper[connectedTo.connection]
+
+            val transform = Transform(position = Vector2(parentTransform.position.x + relativeTransform.relativePosition.x, parentTransform.position.y + relativeTransform.relativePosition.y),
+                    scale = Vector2(parentTransform.scale.x, parentTransform.scale.y),
+                    degrees = relativeTransform.degrees)
+
+            entity.add(transform)
+        }
+
         batch.use { b ->
             sprites.forEach { entity ->
                 val sprite = spriteMapper[entity]

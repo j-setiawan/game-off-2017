@@ -8,10 +8,11 @@ import com.mygdx.es.component.*
 import ktx.ashley.entity
 
 class EntityFactory(val engine: Engine) {
-    fun buildTurret(): Entity {
+    fun buildTurret(turretParent: Entity): Entity {
         return engine.entity {
             with<Sprite> { setRegion(Texture("tanks_turret1.png")) }
-            with<Transform> { position = Vector2(0f, 10f); degrees = 45f }
+            with<RelativeTransform> { relativePosition = Vector2(-20f, 20f) }
+            with<ConnectedTo> { connection = turretParent }
         }
     }
 
@@ -23,8 +24,9 @@ class EntityFactory(val engine: Engine) {
     }
 
     fun buildPlayerParent(): Entity {
+        val tank = buildTankBody()
         return engine.entity {
-            with<Parent> { children = listOf(buildTurret(), buildTankBody()) }
+            with<Parent> { children = listOf(buildTurret(tank), tank) }
         }
     }
 
