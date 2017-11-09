@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2
 import com.mygdx.es.component.Caption
 import com.mygdx.es.component.Sprite
 import com.mygdx.es.component.Transform
+import com.mygdx.es.factory.EntityFactory
 import com.mygdx.es.helper.*
 import com.mygdx.es.system.MoarExclamationMarksSystem
 import com.mygdx.es.system.SpriteRotatorSystem
@@ -25,6 +26,7 @@ class HelloWorldScreen(context: Context) : KtxScreen {
     private val sprites = engine.getEntitiesFor(spriteFamily)
     private val exclamations = MoarExclamationMarksSystem()
     private val rotator = SpriteRotatorSystem()
+    private val factory = EntityFactory(engine)
 
     override fun show() {
         engine.addSystem(exclamations)
@@ -36,6 +38,9 @@ class HelloWorldScreen(context: Context) : KtxScreen {
         engine.entity {
             with<Transform> { degrees = 45f }
             with<Sprite> { setRegion(Texture("badlogic.jpg")) }
+        }
+        engine.entity {
+            factory.buildPlayer("player 1")
         }
     }
 
