@@ -4,9 +4,9 @@ import com.badlogic.ashley.core.Family
 import com.mygdx.es.component.*
 import ktx.ashley.allOf
 
-val activePlayerFamily: Family = allOf(ActivePlayer::class, Player::class, Turret::class).get()
-val labelFamily: Family = allOf(Transform::class, Caption::class).get()
-val levelFamily: Family = allOf(Level::class).get()
-val playerFamily: Family = allOf(Player::class).get()
-val spriteFamily: Family = allOf(Transform::class, Sprite::class).get()
-val connectedSpriteFamily: Family = allOf(ConnectedTo::class, RelativeTransform::class, Sprite::class).get()
+val activePlayerFamily: Family = allOf(ActivePlayerComponent::class, PlayerComponent::class, TurretComponent::class).get()
+val labelFamily: Family = allOf(TransformComponent::class, CaptionComponent::class).get()
+val levelFamily: Family = allOf(LevelComponent::class).get()
+val playerFamily: Family = allOf(PlayerComponent::class).get()
+val spriteFamily: Family = allOf(TransformComponent::class, SpriteComponent::class).get()
+val transformFamily: Family = allOf(TransformComponent::class).get()

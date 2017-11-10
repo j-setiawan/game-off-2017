@@ -4,8 +4,8 @@ import com.badlogic.ashley.core.Engine
 import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.utils.ImmutableArray
 import com.badlogic.gdx.math.Vector2
-import com.mygdx.es.component.Level
-import com.mygdx.es.component.Transform
+import com.mygdx.es.component.LevelComponent
+import com.mygdx.es.component.TransformComponent
 import com.mygdx.es.helper.levelFamily
 import com.mygdx.es.helper.playerFamily
 import ktx.ashley.entity
@@ -15,7 +15,7 @@ object LevelGenerator {
         val levels: ImmutableArray<Entity> = engine.getEntitiesFor(levelFamily)
         levels.forEach { engine.removeEntity(it) }
         val level = engine.entity {
-            with<Level> {} // TODO: terrain, wind, ...
+            with<LevelComponent> {} // TODO: terrain, wind, ...
         }
         val players: ImmutableArray<Entity> = engine.getEntitiesFor(playerFamily)
         val margin = 0.1F * viewport.x
@@ -23,8 +23,8 @@ object LevelGenerator {
         val spacing = (viewport.x - margin) / (players.size() + 1)
         val height = 100F // TODO
         players.forEachIndexed { index, player ->
-            player.remove(Transform::class.java)
-            player.add(Transform(Vector2(leftMargin + spacing * index.toFloat(), height)))
+            player.remove(TransformComponent::class.java)
+            player.add(TransformComponent(Vector2(leftMargin + spacing * index.toFloat(), height)))
         }
     }
 }
