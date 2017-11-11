@@ -39,4 +39,5 @@ class EntityFactory(val engine: Engine) {
             with<ParentComponent> { children = listOf(buildTankBody()) }
         }
     }
+
 }
