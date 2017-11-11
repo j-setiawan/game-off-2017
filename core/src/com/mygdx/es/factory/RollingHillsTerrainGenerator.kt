@@ -32,20 +32,20 @@ class RollingHillsTerrainGenerator : LevelFactory.TerrainGenerator {
                 0F
         )
         val octaveDensity: FloatArray = floatArrayOf(
-                Random.gaussianRange(0.25F, 2.0F),
-                Random.gaussianRange(2.0F, 4.0F),
-                Random.gaussianRange(4.0F, 8.0F)
+                Random.gaussian(1.25f, 0.2f),
+                Random.gaussian(3f, 0.75f),
+                Random.gaussian(6f, 1f)
         )
         val octaveStrength: FloatArray = floatArrayOf(
-                Random.gaussianRange(0.25F, 0.75F),
-                Random.gaussianRange(0.01F, 0.25F),
-                Random.gaussianRange(0.001F, 0.01F)
+                Random.gaussian(0.5F, 0.3F),
+                Random.gaussian(0.25F, 0.15F),
+                Random.gaussian(0.125F, 0.1F)
         )
         val elevation: FloatArray = kotlin.FloatArray(terrain.pixmap.width)
         val fWidth = terrain.pixmap.width.toFloat()
         val fHeight = terrain.pixmap.height.toFloat()
         for (i in elevation.indices) {
-            val xNorm: Float = i.toFloat() / fWidth
+            val xNorm: Float = i.toFloat() / fWidth * MathUtils.PI2
             for (j in octavePeriodOffset.indices) {
                 val yNorm = octaveStrength[j] * (octaveValueOffset[j] + MathUtils.sin(xNorm * octaveDensity[j] + octavePeriodOffset[j]))
                 elevation[i] += yNorm * fHeight
@@ -59,16 +59,19 @@ class RollingHillsTerrainGenerator : LevelFactory.TerrainGenerator {
         }
         val baseline = 50F
         val offset = baseline - min
+        val scale = (fHeight - baseline) / (max - min)
         for (i in elevation.indices) {
+            elevation[i] *= scale
             elevation[i] += offset
         }
         terrain.pixmap.setColor(0F, 0F, 0F, 0F)
         terrain.pixmap.fill()
         terrain.pixmap.setColor(1F, 1F, 1F, 1F)
         for (x in 0 until terrain.pixmap.width) {
-            for (y in 0 until terrain.pixmap.height) {
-                if (y < elevation[x]) continue // done this column
-                terrain.pixmap.drawPixel(x, y)
+            for (yi in 0 until terrain.pixmap.height) {
+                val y = terrain.pixmap.height - yi
+                if (y > elevation[x]) continue // done this column
+                terrain.pixmap.drawPixel(x, yi)
             }
         }
         terrain.updateTexture()

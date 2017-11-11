@@ -13,7 +13,7 @@ object Random {
         return gen.nextFloat() * (high - low) + low
     }
 
-    fun gaussianRange(low: Float, high: Float): Float {
-        return gen.nextGaussian().toFloat() * (high - low) + low
+    fun gaussian(center: Float, variance: Float): Float {
+        return gen.nextGaussian().toFloat() * variance + center
     }
 }
