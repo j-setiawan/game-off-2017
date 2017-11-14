@@ -29,7 +29,7 @@ class LevelFactory(private val engine: Engine) {
             with<LevelComponent> {
             } // TODO: terrain, wind, ...
             with<TerrainComponent> {
-                pixmap = Pixmap(viewport.worldWidth.toInt(), viewport.worldHeight.toInt(), Pixmap.Format.RGBA8888)
+                pixmap = Pixmap(viewport.worldWidth.toInt(), viewport.worldHeight.toInt() - 300, Pixmap.Format.RGBA8888)
                 generator.generateTerrain(this)
             }
         }

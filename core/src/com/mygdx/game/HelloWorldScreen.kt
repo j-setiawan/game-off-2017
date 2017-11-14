@@ -14,6 +14,7 @@ import com.mygdx.es.component.TransformComponent
 import com.mygdx.es.factory.EntityFactory
 import com.mygdx.es.factory.LevelFactory
 import com.mygdx.es.helper.*
+import com.mygdx.es.system.GravitySystem
 import com.mygdx.es.system.MoarExclamationMarksSystem
 import com.mygdx.es.system.SpriteRotatorSystem
 import com.mygdx.es.system.TransformHierarchySystem
@@ -44,7 +45,6 @@ class HelloWorldScreen(private val context: Context) : KtxScreen {
             }
         })
         engine.addSystem(exclamations)
-        engine.addSystem(rotator)
         engine.addSystem(transformHierarchySystem)
         engine.entity {
             with<TransformComponent> { position = Vector2(300f, 100f) }
@@ -61,6 +61,7 @@ class HelloWorldScreen(private val context: Context) : KtxScreen {
             factory.buildPlayer("player 1")
         }
         level = LevelFactory(engine).buildLevel(context.viewport)
+        engine.addSystem(GravitySystem(level))
     }
 
     override fun render(delta: Float) {

@@ -5,10 +5,7 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.math.Vector2
-import com.mygdx.es.component.ParentComponent
-import com.mygdx.es.component.PlayerComponent
-import com.mygdx.es.component.SpriteComponent
-import com.mygdx.es.component.TransformComponent
+import com.mygdx.es.component.*
 import ktx.ashley.entity
 
 class EntityFactory(val engine: Engine) {
@@ -30,6 +27,7 @@ class EntityFactory(val engine: Engine) {
             }
             with<TransformComponent> { position = Vector2(300f, 300f) }
             with<ParentComponent> { children = listOf(buildTurret()) }
+            with<CollidableComponent> {}
         }
     }
 
