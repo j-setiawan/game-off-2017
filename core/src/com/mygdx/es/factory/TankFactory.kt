@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2
 import com.mygdx.es.component.*
 import ktx.ashley.entity
 
-class EntityFactory(val engine: Engine) {
+class TankFactory(val engine: Engine) {
     fun buildTurret(): Entity {
         return engine.entity {
             with<SpriteComponent> {
@@ -28,12 +28,12 @@ class EntityFactory(val engine: Engine) {
             with<TransformComponent> { position = Vector2(300f, 300f) }
             with<ParentComponent> { children = listOf(buildTurret()) }
             with<CollidableComponent> {}
+            with<VelocityComponent> {}
         }
     }
 
     fun buildPlayer(playerName: String): Entity {
         return engine.entity {
-            with<PlayerComponent> { name = playerName }
             with<ParentComponent> { children = listOf(buildTankBody()) }
         }
     }

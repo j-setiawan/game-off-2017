@@ -53,6 +53,7 @@ class TransformHierarchySystem : IteratingSystem(transformFamily) {
     private fun processEntity(entity: Entity, parent: Affine2) {
         val transform: TransformComponent = transformMapper[entity]
         val local: Affine2 = transform.matrixLocal.idt()
+        transform.lastPosition = transform.position
         local.translate(transform.position)
         local.rotate(transform.degrees)
         local.scale(transform.scale)

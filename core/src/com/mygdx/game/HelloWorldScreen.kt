@@ -11,13 +11,10 @@ import com.badlogic.gdx.math.Vector2
 import com.mygdx.es.component.CaptionComponent
 import com.mygdx.es.component.SpriteComponent
 import com.mygdx.es.component.TransformComponent
-import com.mygdx.es.factory.EntityFactory
+import com.mygdx.es.factory.TankFactory
 import com.mygdx.es.factory.LevelFactory
 import com.mygdx.es.helper.*
-import com.mygdx.es.system.GravitySystem
-import com.mygdx.es.system.MoarExclamationMarksSystem
-import com.mygdx.es.system.SpriteRotatorSystem
-import com.mygdx.es.system.TransformHierarchySystem
+import com.mygdx.es.system.*
 import ktx.app.KtxScreen
 import ktx.app.use
 import ktx.ashley.entity
@@ -33,7 +30,8 @@ class HelloWorldScreen(private val context: Context) : KtxScreen {
     private val exclamations = MoarExclamationMarksSystem()
     private val transformHierarchySystem = TransformHierarchySystem()
     private val rotator = SpriteRotatorSystem()
-    private val factory = EntityFactory(engine)
+    private val playerInput = PlayerInputSystem()
+    private val factory = TankFactory(engine)
     private lateinit var player: Entity
     private lateinit var level: Entity
 
@@ -44,6 +42,7 @@ class HelloWorldScreen(private val context: Context) : KtxScreen {
                 terrainMapper[entity!!].pixmap.dispose()
             }
         })
+        engine.addSystem(playerInput)
         engine.addSystem(exclamations)
         engine.addSystem(transformHierarchySystem)
         engine.entity {
