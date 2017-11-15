@@ -49,13 +49,6 @@ class HelloWorldScreen(private val context: Context) : KtxScreen {
             with<TransformComponent> { position = Vector2(300f, 100f) }
             with<CaptionComponent> { text = "Hello world!" }
         }
-        engine.entity {
-            with<TransformComponent> { degrees = 45f }
-            with<SpriteComponent> {
-                sprite = Sprite(Texture("badlogic.jpg"))
-                setCentered()
-            }
-        }
         player = engine.entity {
             factory.buildPlayer("player 1")
         }
@@ -73,6 +66,16 @@ class HelloWorldScreen(private val context: Context) : KtxScreen {
                 val transform = transformMapper[entity]
                 b.setTransformMatrix(transform.matrixGlobal)
                 sprite.sprite.draw(b, sprite.alpha)
+
+                // DEBUG code for drawing bounding boxes (kind of)
+//                val position = sprite.sprite.boundingRectangle.getPosition(Vector2())
+//                transform.matrixGlobal.applyTo(position)
+//                val pixmap = Pixmap(sprite.sprite.boundingRectangle.width.toInt(), sprite.sprite.boundingRectangle.height.toInt(), Pixmap.Format.RGBA8888)
+//                pixmap.setColor(Color.RED)
+//                pixmap.drawRectangle(0, 0, pixmap.width, pixmap.height)
+//                b.setTransformMatrix(Affine2().idt())
+//                b.draw(Texture(pixmap), position.x, position.y)
+//                pixmap.dispose()
             }
             labels.forEach { entity ->
                 val caption = captionMapper[entity]

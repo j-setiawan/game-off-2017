@@ -14,19 +14,29 @@ class GravitySystem(val level : Entity) : IntervalIteratingSystem(physicsFamily,
         val transform = transformMapper[entity]
         val velocity = velocityMapper[entity]
 
-        val position = sprite.sprite.boundingRectangle.getPosition(Vector2())
-        transform.matrixGlobal.applyTo(position)
+        val bottomLeft = sprite.sprite.boundingRectangle.getPosition(Vector2())
+        transform.matrixGlobal.applyTo(bottomLeft)
 
-        if(missedPixel(position) || missedPixel(position.x + sprite.sprite.boundingRectangle.width, position.y)) {
-            transform.position.x -= velocity.velocity.x
-            transform.position.y -= velocity.velocity.y
+        val bottomRight = sprite.sprite.boundingRectangle.getPosition(Vector2())
+        bottomRight.x += sprite.sprite.boundingRectangle.width
+        transform.matrixGlobal.applyTo(bottomRight)
 
-            velocity.velocity.y += gravity
+        if(missedPixel(bottomLeft) || missedPixel(bottomRight)) {
+            if (!missedPixel(bottomLeft)) {
+                transform.degrees -= 1
+            } else if (!missedPixel(bottomRight)) {
+                transform.degrees += 1
+            } else {
+                transform.position.x -= velocity.velocity.x
+                transform.position.y -= velocity.velocity.y
+
+                velocity.velocity.y += gravity
+            }
         }
     }
 
     private fun missedPixel(position: Vector2) : Boolean {
-        return terrain.pixmap.getPixel(position.x.toInt(), position.y.toInt()) == 0
+        return terrain.pixmap.getPixel(position.x.toInt(), terrain.pixmap.height - position.y.toInt()) == 0
     }
 
     private fun missedPixel(x: Float, y: Float) : Boolean {
