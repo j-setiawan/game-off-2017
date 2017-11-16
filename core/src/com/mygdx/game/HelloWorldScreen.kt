@@ -13,6 +13,7 @@ import com.mygdx.es.component.SpriteComponent
 import com.mygdx.es.component.TransformComponent
 import com.mygdx.es.factory.TankFactory
 import com.mygdx.es.factory.LevelFactory
+import com.mygdx.es.factory.ProjectileFactory
 import com.mygdx.es.helper.*
 import com.mygdx.es.system.*
 import ktx.app.KtxScreen
@@ -32,7 +33,9 @@ class HelloWorldScreen(private val context: Context) : KtxScreen {
     private val rotator = SpriteRotatorSystem()
     private val playerInput = PlayerInputSystem()
     private val factory = TankFactory(engine)
+    private val projectileFactory = ProjectileFactory(engine)
     private lateinit var player: Entity
+    private lateinit var projectile: Entity
     private lateinit var level: Entity
 
     override fun show() {
@@ -51,6 +54,9 @@ class HelloWorldScreen(private val context: Context) : KtxScreen {
         }
         player = engine.entity {
             factory.buildPlayer("player 1")
+        }
+        projectile = engine.entity{
+            projectileFactory.buildProjectile()
         }
         level = LevelFactory(engine).buildLevel(context.viewport)
         engine.addSystem(GravitySystem(level))

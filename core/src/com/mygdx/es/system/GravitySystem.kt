@@ -32,6 +32,10 @@ class GravitySystem(val level : Entity) : IntervalIteratingSystem(physicsFamily,
 
                 velocity.velocity.y += gravity
             }
+        } else {
+            if (damageMapper.has(entity)){
+                engine.removeEntity(entity)
+            }
         }
     }
 
