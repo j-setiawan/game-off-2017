@@ -13,3 +13,4 @@ val spriteFamily: Family = allOf(TransformComponent::class, SpriteComponent::cla
 val terrainFamily: Family = allOf(TerrainComponent::class).get()
 val transformFamily: Family = allOf(TransformComponent::class).get()
 val physicsFamily: Family = allOf(VelocityComponent::class, CollidableComponent::class, SpriteComponent::class, TransformComponent::class).get()
+val projectileFamily: Family = allOf(DamageComponent::class, CollidableComponent::class, SpriteComponent::class, TransformComponent::class, ParentComponent::class).get()

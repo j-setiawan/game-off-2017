@@ -34,7 +34,9 @@ class GravitySystem(val level : Entity) : IntervalIteratingSystem(physicsFamily,
             }
         } else {
             if (damageMapper.has(entity)){
-                engine.removeEntity(entity)
+                val collidable = collidableMapper[entity]
+                collidable.hit = true
+                //engine.removeEntity(entity)
             }
         }
     }

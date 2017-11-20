@@ -60,6 +60,7 @@ class HelloWorldScreen(private val context: Context) : KtxScreen {
         }
         level = LevelFactory(engine).buildLevel(context.viewport)
         engine.addSystem(GravitySystem(level))
+        engine.addSystem(CollidedSystem())
     }
 
     override fun render(delta: Float) {

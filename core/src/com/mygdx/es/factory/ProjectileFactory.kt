@@ -9,6 +9,15 @@ import com.mygdx.es.component.*
 import ktx.ashley.entity
 
 class ProjectileFactory(val engine: Engine) {
+    fun buildExplosion() : Entity {
+        return engine.entity {
+            with<TextureComponent>{
+                texture = Texture("tank_explosion4.png")
+            }
+            with<TransformComponent>{}
+        }
+    }
+
     fun buildProjectile(): Entity {
         return engine.entity {
             with<CollidableComponent>{}
@@ -21,7 +30,8 @@ class ProjectileFactory(val engine: Engine) {
                 radius = 10f
             }
             with<TransformComponent>{ position = Vector2(300f, 400f) }
-            with<VelocityComponent>{ velocity = Vector2(-1f, -10f)}
+            with<VelocityComponent>{ velocity = Vector2(-1f, -3f)}
+            with<ParentComponent>{ children = listOf(buildExplosion()) }
         }
     }
 }
